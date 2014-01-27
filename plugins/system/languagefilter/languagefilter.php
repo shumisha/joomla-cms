@@ -118,7 +118,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// 	Detect browser feature
 			if ($app->isSite())
 			{
-				$app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
+				$app->setDetectBrowser(!empty($this->params->get('detect_browser', '0')));
 			}
 		}
 	}
@@ -211,7 +211,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$this->params->get('remove_default_prefix', 0) == 0
 				|| $sef != self::$default_sef
 				|| $sef != self::$lang_codes[self::$tag]->sef
-				|| $this->params->get('detect_browser', 1) && JLanguageHelper::detectLanguage() != self::$tag && !self::$cookie
+				|| $this->params->get('detect_browser', 0) && JLanguageHelper::detectLanguage() != self::$tag && !self::$cookie
 			)
 			{
 				$uri->setPath($uri->getPath().'/'.$sef.'/');
@@ -235,7 +235,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		// No cookie - let's try to detect browser language or use site default
 		if (!$lang_code)
 		{
-			if ($this->params->get('detect_browser', 1))
+			if ($this->params->get('detect_browser', 0))
 			{
 				$lang_code = JLanguageHelper::detectLanguage();
 			}
@@ -296,7 +296,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					// redirect if sef is the default one
 					elseif (isset(self::$sefs[$sef]) &&
 						self::$default_lang == self::$sefs[$sef]->lang_code &&
-						(!$this->params->get('detect_browser', 1) || JLanguageHelper::detectLanguage() == self::$tag || self::$cookie)
+						(!$this->params->get('detect_browser', 0) || JLanguageHelper::detectLanguage() == self::$tag || self::$cookie)
 					)
 					{
 						array_shift($parts);
@@ -543,7 +543,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// No cookie - let's try to detect browser language or use site default
 				if (!$lang_code)
 				{
-					if ($this->params->get('detect_browser', 1)){
+					if ($this->params->get('detect_browser', 0)){
 						$lang_code = JLanguageHelper::detectLanguage();
 					} else {
 						$lang_code = self::$default_lang;
