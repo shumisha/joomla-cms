@@ -118,7 +118,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// 	Detect browser feature
 			if ($app->isSite())
 			{
-				$app->setDetectBrowser(!empty($this->params->get('detect_browser', '0')));
+				$app->setDetectBrowser(!$this->params->get('detect_browser', '0'));
 			}
 		}
 	}
